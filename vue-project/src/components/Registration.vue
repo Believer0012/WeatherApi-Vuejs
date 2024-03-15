@@ -37,7 +37,7 @@
   
         <p class="text-white forgot-password text-right mt-2">
           Already registered
-          <router-link :to="{ name: 'login' }">sign in?</router-link>
+          <router-link to="/login" class="underline">Sign up now</router-link>.
         </p>
       </form>
     </div>

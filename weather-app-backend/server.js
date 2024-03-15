@@ -7,6 +7,8 @@ const schema = require('./graphql/schema/schema'); // Assuming schema.js exists
 const userSchema = require('./graphql/schema/userSchema')
 const cityResolver = require('./graphql/resolver/resolvers');
 const userResolver = require('./graphql/resolver/userResolver');
+const { scheduleEmails } = require('./sendEmail'); 
+
 
 const cors = require('cors');
 
@@ -26,6 +28,7 @@ app.use((err, req, res, next) => {
 mongoose.connect('mongodb://0.0.0.0:27017/weatherapp', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('Connected to MongoDB');
+        // scheduleEmails();  // this will schedule the mail system  every  12 pm  
     })
     .catch((error) => {
         console.error('Error connecting to MongoDB:', error.message);

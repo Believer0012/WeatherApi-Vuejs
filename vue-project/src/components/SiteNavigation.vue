@@ -18,6 +18,8 @@
           @click="addCity"
           v-if="route.query.preview"
         ></i>
+        <button v-if="!isAuthenticated" @click="login">Login</button>
+        <button v-else @click="logout">Logout</button>
       </div>
 
       <BaseModal :modalActive="modalActive" @close-modal="toggleModal">
@@ -55,11 +57,10 @@ import { ref } from "vue";
 import BaseModal from "./BaseModal.vue";
 import axios from "axios";
 
-
-
 const route = useRoute();
 const router = useRouter();
 const modalActive = ref(false);
+const isAuthenticated = ref(!!sessionStorage.getItem("token"));
 
 const addCity = async () => {
   try {
@@ -128,5 +129,23 @@ const addCity = async () => {
 
 const toggleModal = () => {
   modalActive.value = !modalActive.value;
+};
+
+const login = () => {
+  // Perform login logic
+  router.push({ name: 'login' });
+    
+  isAuthenticated.value = true;
+};
+
+const logout = () => {
+  // Perform logout logic
+  sessionStorage.removeItem("token");
+  sessionStorage.removeItem("userId")
+
+
+  router.push({ name: 'home' });
+  isAuthenticated.value = false;
+  window.location.reload()
 };
 </script>

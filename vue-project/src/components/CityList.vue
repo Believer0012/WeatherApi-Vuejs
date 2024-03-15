@@ -15,14 +15,37 @@
   
   const savedCities = ref([]);
   const router = useRouter();
+
+  
   
   const getCities = async () => {
-    try {
-      const response = await axios.post("http://localhost:4000/graphql", {
-        query: "query { cities { _id state city coords { lat lng } } }"
-      });
-  
-      savedCities.value = response.data.data.cities;
+const userId = sessionStorage.getItem('userId');
+console.log(userId);
+
+try {
+  const response = await axios.post("http://localhost:4000/graphql", {
+    query: `
+      query GetCities($userId: ID!) {
+        cities(userId: $userId) {
+          _id
+          state
+          city
+          coords {
+            lat
+            lng
+          }
+        }
+      }
+    `,
+    variables: {
+      userId: userId
+    }
+  });
+
+  console.log('Cities:', response.data.data.cities);
+
+    savedCities.value = response.data.data.cities;
+
   
       const requests = [];
       savedCities.value.forEach((city) => {
@@ -46,12 +69,14 @@
   await getCities();
   
   const goToCityView = (city) => {
+    console.log(city)
     router.push({
       name: "weatherGraph",
       params: { state: city.state, city: city.city },
       query: {
         lat: city.coords.lat,
         lng: city.coords.lng,
+        city:city.city
       },
     });
   };

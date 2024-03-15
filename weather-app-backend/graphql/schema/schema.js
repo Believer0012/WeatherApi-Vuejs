@@ -27,7 +27,7 @@ module.exports = buildSchema(`
   }
 
   type Query {
-    cities: [City!]! # Non-null list of cities
+    cities(userId: ID!): [City]!
   }
 
   type Mutation {

@@ -1,9 +1,9 @@
 const { City } = require('../../modals/City'); // Assuming your City model
 
 module.exports = {
-  cities: async () => {
+  cities: async ({ userId }) => { // Accept userId as a parameter
     try {
-      const cities = await City.find();
+      const cities = await City.find({ userId }); // Filter cities by userId
       return cities;
     } catch (error) {
       console.error('Error fetching cities:', error);
@@ -20,7 +20,7 @@ module.exports = {
     const { state, city, coords ,userId} = cityInput;
 
     // Check for existing city with the same state and city combination
-    const existingCity = await City.findOne({ state, city });
+    const existingCity = await City.findOne({ userId });
 
     if (existingCity) {
       throw new Error('City already exists.');

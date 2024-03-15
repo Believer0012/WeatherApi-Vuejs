@@ -24,6 +24,10 @@
         </div>
   
         <button type="submit" class="btn-light btn-lg btn-block py-5 text-white">Sign In</button>
+
+        <p class="mt-4 text-white">
+        Not registered yet? <router-link to="/signup" class="underline">Sign up now</router-link>.
+      </p>
   
       </form>
     </div>
